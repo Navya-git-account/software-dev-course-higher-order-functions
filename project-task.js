@@ -44,6 +44,20 @@ Step-by-Step:
 3. Return the filtered result.
 */
 
+function filterProducts(products, callback) {
+
+  return products.filter(callback);
+
+}
+// Filter by stock
+console.log(filterProducts(products, p => p.inStock));
+
+// Filter by price threshold
+console.log(filterProducts(products, p => p.price > 500));
+
+// Filter by name condition
+console.log(filterProducts(products, p => p.name.startsWith("L")));
+
 
 /*
 🔹 Task 2: Transform Product Names
@@ -55,7 +69,8 @@ Step-by-Step:
 2. Extract and transform the `name` property to uppercase.
 3. Store the result in a new variable.
 */
-
+ const upperCaseNames = products.map(product => product.name.toUpperCase());
+ console.log(upperCaseNames);
 
 /*
 🔹 Task 3: Generate Discounted Prices
@@ -71,6 +86,28 @@ Step-by-Step:
 4. Print the array of products to verify the new property and value have been added to each product object.
 */
 
+function applyDiscount(discountPercent) {
+  //Return a function that takes a product object
+  return function (product) {
+    //Calculate the discounted price
+    const discountAmount = product.price * (discountPercent / 100);
+    const discountedPrice = product.price - discountAmount;
+
+    //Return the discounted price
+    return discountedPrice;
+  };
+}
+
+//Use the returned function with forEach() to modify products
+products.forEach((product) => {
+  //Apply a 10% discount to each product
+  const getDiscountPrice = applyDiscount(10);
+  product.salePrice = getDiscountPrice(product);
+});
+
+//Print products to verify new salePrice property
+console.log(products);
+
 
 /*
 🔹 Task 4: Calculate Total Inventory Value
@@ -83,6 +120,14 @@ Step-by-Step:
 3. Store the total in a new variable.
 */
 
+const totalInventoryValue = products.reduce((total, product) => {
+
+  if( product.inStock) {
+        return total = total + product.price
+  }
+  return total;
+}, 0) ;
+console.log(totalInventoryValue);
 
 // ============================================
 // 🧪 Console Test Your Work
